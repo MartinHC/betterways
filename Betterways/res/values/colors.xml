@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="black">#000000</color>
+    <color name="white">#FFFFFF</color>
+    <color name="red">#ffff0000</color>
+    <color name="blue">#ff000000</color>
+    <color name="green">#ff888888</color>
+    <color name="yellow">#ffffff00</color>
+    <color name="hfcblue">#005295</color>
+    <color name="hfcbabyblue">#86a0ca</color>
+    <color name="hfcred">#d43e34</color>
+    <color name="hfcgreen1">#39e739</color>
+
+</resources>
