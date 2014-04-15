@@ -1,4 +1,6 @@
 betterways
 ==========
 
-Martin lernt Git und Android
+Martin lernt Git und Adroid
+
+
