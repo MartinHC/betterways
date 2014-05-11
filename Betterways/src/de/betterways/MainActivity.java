@@ -1,6 +1,13 @@
 package de.betterways;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Typeface;
+import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
 import android.view.LayoutInflater;
@@ -8,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 /**
  * Startscreen App
@@ -16,6 +24,8 @@ import android.view.ViewGroup;
  * 
  */
 public class MainActivity extends ActionBarActivity {
+
+	private Context contextForDialog = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +36,17 @@ public class MainActivity extends ActionBarActivity {
 			getSupportFragmentManager().beginTransaction()
 					.add(R.id.container, new PlaceholderFragment()).commit();
 		}
+		/**
+		 * Change textView StartText to specified fontStyle.
+		 */
+		TextView startText = (TextView) findViewById(R.id.customStartText);
+		TextView appName = (TextView) findViewById(R.id.appName);
+		Typeface font = Typeface.createFromAsset(getAssets(),
+				"HaventSleptInTwoDaysShadow.ttf");
+		startText.setTypeface(font);
+		appName.setTypeface(font);
+		contextForDialog = this;
+
 	}
 
 	@Override
@@ -63,6 +84,66 @@ public class MainActivity extends ActionBarActivity {
 					false);
 			return rootView;
 		}
+	}
+
+	/**
+	 * Decision() if no GPS enabled
+	 */
+	private void decision() {
+
+		LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+
+		final boolean gpsEnabled = locationManager
+				.isProviderEnabled(LocationManager.GPS_PROVIDER);
+
+		if (!gpsEnabled) {
+			buildAlertDialogNoGPS();
+		} else {
+			new SleepTask().execute(this);
+
+		}
+	}
+
+	/**
+	 * buildAlertDialogNoGPS() UI to make decision
+	 */
+	public void buildAlertDialogNoGPS() {
+
+		new AlertDialog.Builder(contextForDialog)
+				.setIcon(android.R.drawable.ic_dialog_info)
+				.setMessage("Set your Gps 'on' to continue")
+				.setTitle("Chose to continue")
+				.setPositiveButton("GPS Settings",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								startActivity(new Intent(
+										Settings.ACTION_LOCATION_SOURCE_SETTINGS));
+								dialog.cancel();
+							}
+						})
+
+				.setNegativeButton("Close",
+						new DialogInterface.OnClickListener() {
+
+							@Override
+							public void onClick(DialogInterface dialog, int id) {
+								Intent startHome = new Intent(
+										Intent.ACTION_MAIN);
+								startHome.addCategory(Intent.CATEGORY_HOME);
+								startHome
+										.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+								MainActivity.this.startActivity(startHome);
+							}
+						}).create().show();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		decision();
+
 	}
 
 }

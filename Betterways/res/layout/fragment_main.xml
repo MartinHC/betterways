@@ -9,24 +9,37 @@
     tools:context="de.betterways.MainActivity$PlaceholderFragment" >
 
     <ImageView
-        android:id="@+id/imageView1"
+        android:id="@+id/splashImage"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        android:layout_marginTop="164dp"
-        android:src="@drawable/abc_ic_clear" />
+        android:background="@drawable/splash_screen_app" />
 
     <RelativeLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent" >
 
         <TextView
+            android:id="@+id/customStartText"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_centerHorizontal="true"
+            android:text="Make your streets better"
+            android:textColor="@color/black"
+            android:textSize="18dp"
+            android:textStyle="bold"
+            android:typeface="serif" />
+
+        <TextView
+            android:id="@+id/appName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentTop="true"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="184dp"
-            android:text="hallo"
-            android:textColor="@color/black" />
+            android:layout_marginTop="50dp"
+            android:text="@string/app_name"
+            android:textSize="32dp"
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
